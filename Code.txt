@@ -1,0 +1,138 @@
+public class CreditCardLoanInfo
+{
+    // Loan Information
+    public string BankName { get; set; }
+    public string ConsumerType { get; set; }
+    public string CreditCardType { get; set; }
+    public decimal LoanLimit { get; set; }
+    public decimal OutstandingBalance { get; set; }
+    public decimal MinAmountDue { get; set; }
+    public decimal CollateralAmount { get; set; }
+    public string LitigationAmount { get; set; }
+    public string SecuredUnsecured { get; set; }
+    public string WriteOffType { get; set; }
+    public decimal WriteOffAmount { get; set; }
+    public string RecoveryAction { get; set; }
+
+    // Loan Details
+    public string LoanType { get; set; }
+    public DateTime PositionAsOf { get; set; }
+    public DateTime LastPaymentDate { get; set; }
+    public DateTime FacilityDate { get; set; }
+    public DateTime MaturityDate { get; set; }
+    public int BouncedRepaymentCheques { get; set; }
+    public string ClassificationType { get; set; }
+    public string ClassificationNature { get; set; }
+    public DateTime? RestructuringDate { get; set; }
+    public decimal? RestructuringAmount { get; set; }
+    public string RepaymentFrequency { get; set; }
+    public string SecurityCollateral { get; set; }
+    public DateTime? WriteOffDate { get; set; }
+    public DateTime? RecoveryDate { get; set; }
+
+    // Summary of Overdues
+    public Dictionary<string, int> OverdueSummary { get; set; }
+
+    // Details of Credit History
+    public List<CreditHistoryRecord> CreditHistory { get; set; }
+}
+
+public class CreditHistoryRecord
+{
+    public string Month { get; set; }
+    public int Overdue30Days { get; set; }
+    public int Overdue60Days { get; set; }
+    public int Overdue90Days { get; set; }
+    public int Overdue120Days { get; set; }
+    public int Overdue150Days { get; set; }
+    public int Overdue180Days { get; set; }
+    public int MFIDefault { get; set; }
+    public int LatePaymentDays { get; set; }
+}
+
+
+
+
+
+
+----------View-----------
+
+@model CreditCardLoanInfo
+
+<div>
+    <h2>@Model.BankName - @Model.ConsumerType - @Model.CreditCardType</h2>
+    <p><strong>Loan Limit:</strong> @Model.LoanLimit</p>
+    <p><strong>Outstanding Balance:</strong> @Model.OutstandingBalance</p>
+    <p><strong>Minimum Amount Due:</strong> @Model.MinAmountDue</p>
+    <p><strong>Collateral Amount:</strong> @Model.CollateralAmount</p>
+    <p><strong>Secured/Unsecured:</strong> @Model.SecuredUnsecured</p>
+    <p><strong>Write Off Type:</strong> @Model.WriteOffType</p>
+    <p><strong>Write Off Amount:</strong> @Model.WriteOffAmount</p>
+    <p><strong>Recovery Action:</strong> @Model.RecoveryAction</p>
+
+    <h3>Loan Details</h3>
+    <p><strong>Loan Type:</strong> @Model.LoanType</p>
+    <p><strong>Position as of:</strong> @Model.PositionAsOf.ToString("dd/MM/yyyy")</p>
+    <p><strong>Date of Last Payment Made:</strong> @Model.LastPaymentDate.ToString("dd/MM/yyyy")</p>
+    <p><strong>Facility Date:</strong> @Model.FacilityDate.ToString("dd/MM/yyyy")</p>
+    <p><strong>Maturity Date:</strong> @Model.MaturityDate.ToString("dd/MM/yyyy")</p>
+    <p><strong>Bounced Repayment Cheques:</strong> @Model.BouncedRepaymentCheques</p>
+    <p><strong>Classification Type:</strong> @Model.ClassificationType</p>
+    <p><strong>Classification Nature:</strong> @Model.ClassificationNature</p>
+    <p><strong>Restructuring Date:</strong> @(Model.RestructuringDate?.ToString("dd/MM/yyyy") ?? "-")</p>
+    <p><strong>Restructuring Amount:</strong> @(Model.RestructuringAmount ?? 0)</p>
+    <p><strong>Repayment Frequency:</strong> @Model.RepaymentFrequency</p>
+    
+    <h3>Summary of Overdues</h3>
+    <table>
+        <thead>
+            <tr>
+                @foreach (var key in Model.OverdueSummary.Keys)
+                {
+                    <th>@key</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (var value in Model.OverdueSummary.Values)
+                {
+                    <td>@value</td>
+                }
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Details of Credit History for Last 24 Months</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>30+ Days</th>
+                <th>60+ Days</th>
+                <th>90+ Days</th>
+                <th>120+ Days</th>
+                <th>150+ Days</th>
+                <th>180+ Days</th>
+                <th>MFI Default</th>
+                <th>Late PMT Days</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in Model.CreditHistory)
+            {
+                <tr>
+                    <td>@record.Month</td>
+                    <td>@record.Overdue30Days</td>
+                    <td>@record.Overdue60Days</td>
+                    <td>@record.Overdue90Days</td>
+                    <td>@record.Overdue120Days</td>
+                    <td>@record.Overdue150Days</td>
+                    <td>@record.Overdue180Days</td>
+                    <td>@record.MFIDefault</td>
+                    <td>@record.LatePaymentDays</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
